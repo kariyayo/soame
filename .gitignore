@@ -1,0 +1,10 @@
+.DS_Store
+.vscode/
+.idea/
+*.sw?
+.claude/
+
+node_modules
+*.log
+sample/
+
