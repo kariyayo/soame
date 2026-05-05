@@ -14,6 +14,11 @@ if (parsed.error) {
   process.exit(1);
 }
 
+if (!parsed.targetDir) {
+  console.error("targetDir is undefined or null")
+  process.exit(1);
+}
+
 const graph = await buildDependencyGraph(parsed.targetDir);
 
 if (parsed.showGraph) {

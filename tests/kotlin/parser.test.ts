@@ -1,5 +1,5 @@
 import { describe, expect, it } from "bun:test";
-import { parseKotlinFile } from "../../src/kotlin/parser";
+import { parseKotlinFile } from "../../src/parser/kotlin/parser";
 
 describe("parseKotlinFile", () => {
   it("パッケージ宣言とimport文を正しく抽出できる", () => {
@@ -13,7 +13,7 @@ class MyClass {}
     const result = parseKotlinFile("/path/to/MyClass.kt", content);
     expect(result.filePath).toBe("/path/to/MyClass.kt");
     expect(result.packageName).toBe("com.example.feature");
-    expect(result.imports).toEqual(["com.example.other.Foo", "com.example.bar.Bar"]);
+    expect(result.dependencies).toEqual(["com.example.other.Foo", "com.example.bar.Bar"]);
   });
 
   it("import文がない場合はimportsが空配列", () => {
@@ -23,7 +23,7 @@ class MyClass {}
 `;
     const result = parseKotlinFile("/path/to/MyClass.kt", content);
     expect(result.packageName).toBe("com.example.feature");
-    expect(result.imports).toEqual([]);
+    expect(result.dependencies).toEqual([]);
   });
 
   it("package宣言がない場合はpackageNameが空文字列", () => {
@@ -33,7 +33,7 @@ class MyClass {}
 `;
     const result = parseKotlinFile("/path/to/MyClass.kt", content);
     expect(result.packageName).toBe("");
-    expect(result.imports).toEqual(["com.example.other.Foo"]);
+    expect(result.dependencies).toEqual(["com.example.other.Foo"]);
   });
 
   it("コメント行のimportは無視する", () => {
@@ -46,7 +46,7 @@ class MyClass {}
 `;
     const result = parseKotlinFile("/path/to/MyClass.kt", content);
     expect(result.packageName).toBe("com.example.feature");
-    expect(result.imports).toEqual(["com.example.other.Foo"]);
+    expect(result.dependencies).toEqual(["com.example.other.Foo"]);
   });
 
   it("ワイルドカードimportも含む", () => {
@@ -59,6 +59,6 @@ class MyClass {}
 `;
     const result = parseKotlinFile("/path/to/MyClass.kt", content);
     expect(result.packageName).toBe("com.example.feature");
-    expect(result.imports).toEqual(["com.example.other.*", "com.example.bar.Bar"]);
+    expect(result.dependencies).toEqual(["com.example.other.*", "com.example.bar.Bar"]);
   });
 });

@@ -2,7 +2,7 @@ import { describe, expect, it, afterEach } from "bun:test";
 import { mkdtemp, writeFile, mkdir, rm } from "fs/promises";
 import { tmpdir } from "os";
 import { join } from "path";
-import { scanKotlinFiles } from "../../src/kotlin/scanner";
+import { scanKotlinFiles } from "../../src/parser/kotlin/scanner";
 
 describe("scanKotlinFiles", () => {
   const tmpDirs: string[] = [];
