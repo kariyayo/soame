@@ -27,4 +27,14 @@ describe("parseArgs", () => {
     expect(result.targetDir).toBe("/path/to/project");
     expect(result.showGraph).toBe(true);
   });
+
+  it("-a オプションなしの場合 showAcd は false", () => {
+    const result = parseArgs(["/path/to/project"]);
+    expect(result.showAcd).toBe(false);
+  });
+
+  it("-a オプションありの場合 showAcd は true", () => {
+    const result = parseArgs(["/path/to/project", "-a"]);
+    expect(result.showAcd).toBe(true);
+  });
 });
