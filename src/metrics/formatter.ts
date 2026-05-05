@@ -1,3 +1,4 @@
+import { basename } from "path";
 import type { AcdResult } from "./acd";
 import type { FanInFanOutResult } from "./fanInFanOut";
 
@@ -19,12 +20,13 @@ export function formatFanInFanOutResult(result: FanInFanOutResult): string {
     a.packageName.localeCompare(b.packageName)
   );
 
-  const colWidth = Math.max(...sorted.map((e) => e.packageName.length), 10);
-  const titleRow = `${"Package".padEnd(colWidth)}  Fan-in   Fan-out`;
+  const labelOf = (e: (typeof sorted)[0]) => `${e.packageName} (${basename(e.filePath)})`;
+  const colWidth = Math.max(...sorted.map((e) => labelOf(e).length), 10);
+  const titleRow = `${"Package (File)".padEnd(colWidth)}  Fan-in   Fan-out`;
   const separator = "-".repeat(colWidth + 18);
   const rows = sorted.map(
     (e) =>
-      `${e.packageName.padEnd(colWidth)}  ${e.fanIn.toFixed(3)}    ${e.fanOut.toFixed(3)}`
+      `${labelOf(e).padEnd(colWidth)}  ${e.fanIn.toFixed(3)}    ${e.fanOut.toFixed(3)}`
   );
 
   return [header + titleRow, separator, ...rows].join("\n");

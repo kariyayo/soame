@@ -48,6 +48,12 @@ describe("formatFanInFanOutResult", () => {
     expect(output).toContain("com.example.b");
   });
 
+  it("ソースファイル名を含む", () => {
+    const output = formatFanInFanOutResult(result);
+    expect(output).toContain("A.kt");
+    expect(output).toContain("B.kt");
+  });
+
   it("fanIn と fanOut を小数点3桁で含む", () => {
     const output = formatFanInFanOutResult(result);
     expect(output).toContain("0.333");
