@@ -37,4 +37,14 @@ describe("parseArgs", () => {
     const result = parseArgs(["/path/to/project", "-a"]);
     expect(result.showAcd).toBe(true);
   });
+
+  it("-u オプションなしの場合 showFanInFanOut は false", () => {
+    const result = parseArgs(["/path/to/project"]);
+    expect(result.showFanInFanOut).toBe(false);
+  });
+
+  it("-u オプションありの場合 showFanInFanOut は true", () => {
+    const result = parseArgs(["/path/to/project", "-u"]);
+    expect(result.showFanInFanOut).toBe(true);
+  });
 });

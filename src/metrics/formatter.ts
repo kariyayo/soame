@@ -1,6 +1,7 @@
 import { basename } from "path";
 import type { AcdResult } from "./acd";
 import type { FanInFanOutResult } from "./fanInFanOut";
+import type { PropagationCostResult } from "./propagationCost";
 
 export function formatAcdResult(result: AcdResult): string {
   return [
@@ -30,4 +31,20 @@ export function formatFanInFanOutResult(result: FanInFanOutResult): string {
   );
 
   return [header + titleRow, separator, ...rows].join("\n");
+}
+
+const severityMessages: Record<PropagationCostResult["severity"], string> = {
+  low: "low",
+  warning: "warning (注意が必要です)",
+  alert: "alert (深刻な問題の可能性があります)",
+};
+
+export function formatPropagationCostResult(result: PropagationCostResult): string {
+  const pct = (result.propagationCost * 100).toFixed(2) + "%";
+  return [
+    "=== Propagation Cost ===",
+    `Components: ${result.componentCount}`,
+    `Propagation Cost: ${pct}`,
+    `Severity: ${severityMessages[result.severity]}`,
+  ].join("\n");
 }
