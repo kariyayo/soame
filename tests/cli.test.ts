@@ -11,4 +11,20 @@ describe("parseArgs", () => {
     const result = parseArgs([]);
     expect(result.error).toBeDefined();
   });
+
+  it("-g オプションなしの場合 showGraph は true", () => {
+    const result = parseArgs(["/path/to/project"]);
+    expect(result.showGraph).toBe(true);
+  });
+
+  it("-g オプションありの場合 showGraph は true", () => {
+    const result = parseArgs(["/path/to/project", "-g"]);
+    expect(result.showGraph).toBe(true);
+  });
+
+  it("-g オプションは対象ディレクトリの前後どちらでも受け取れる", () => {
+    const result = parseArgs(["-g", "/path/to/project"]);
+    expect(result.targetDir).toBe("/path/to/project");
+    expect(result.showGraph).toBe(true);
+  });
 });

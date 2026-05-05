@@ -11,4 +11,7 @@ if (parsed.error) {
 }
 
 const graph = await buildDependencyGraph(parsed.targetDir);
-console.log(formatDependencyGraph(graph));
+
+if (parsed.showGraph) {
+  console.log(formatDependencyGraph(graph));
+}

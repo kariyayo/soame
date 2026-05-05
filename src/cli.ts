@@ -1,10 +1,15 @@
 export type ParsedArgs =
-  | { targetDir: string; error?: undefined }
-  | { targetDir?: undefined; error: string };
+  | { targetDir: string; showGraph: boolean; error?: undefined }
+  | { targetDir?: undefined; showGraph?: undefined; error: string };
 
 export function parseArgs(args: string[]): ParsedArgs {
-  if (args.length === 0) {
-    return { error: "対象ディレクトリを指定してください。\n使い方: soame <対象ディレクトリ>" };
+  const flags = args.filter((a) => a.startsWith("-"));
+  const positional = args.filter((a) => !a.startsWith("-"));
+
+  if (positional.length === 0) {
+    return { error: "対象ディレクトリを指定してください。\n使い方: soame <対象ディレクトリ> [-g]" };
   }
-  return { targetDir: args[0] };
+
+  const showGraph = flags.includes("-g") || true;
+  return { targetDir: positional[0], showGraph };
 }
