@@ -30,11 +30,15 @@ export async function buildDependencyGraph(targetDir: string): Promise<Dependenc
   }
 
   const nodes: DependencyNode[] = fileInfos.map((info) => {
-    const dependsOn = info.imports
-      .map((imp) => resolveImportToPackage(imp))
-      .filter((pkg): pkg is string => pkg !== null)
-      .map((pkg) => packageToFilePath.get(pkg))
-      .filter((fp): fp is string => fp !== undefined);
+    const dependsOn = [
+      ...new Set(
+        info.imports
+          .map((imp) => resolveImportToPackage(imp))
+          .filter((pkg): pkg is string => pkg !== null)
+          .map((pkg) => packageToFilePath.get(pkg))
+          .filter((fp): fp is string => fp !== undefined)
+      ),
+    ];
 
     return {
       filePath: info.filePath,
