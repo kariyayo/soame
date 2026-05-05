@@ -12,9 +12,9 @@ describe("parseArgs", () => {
     expect(result.error).toBeDefined();
   });
 
-  it("-g オプションなしの場合 showGraph は true", () => {
+  it("-g オプションなしの場合 showGraph は false", () => {
     const result = parseArgs(["/path/to/project"]);
-    expect(result.showGraph).toBe(true);
+    expect(result.showGraph).toBe(false);
   });
 
   it("-g オプションありの場合 showGraph は true", () => {
