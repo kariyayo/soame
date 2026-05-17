@@ -4,7 +4,10 @@ import { formatDependencyGraph } from "./graph/formatter";
 import { calculateAcd } from "./metrics/acd";
 import { calculateFanInFanOut } from "./metrics/fanInFanOut";
 import { calculatePropagationCost } from "./metrics/propagationCost";
-import { formatAcdResult, formatFanInFanOutResult, formatPropagationCostResult } from "./metrics/formatter";
+import { calculateLcom4, type Lcom4Result } from "./metrics/lcom4";
+import { formatAcdResult, formatFanInFanOutResult, formatPropagationCostResult, formatLcom4Result } from "./metrics/formatter";
+import { scanKotlinFiles } from "./parser/kotlin/scanner";
+import { readFile } from "fs/promises";
 
 const args = process.argv.slice(2);
 const parsed = parseArgs(args);
@@ -17,6 +20,12 @@ if (parsed.error) {
 if (!parsed.targetDir) {
   console.error("targetDir is undefined or null")
   process.exit(1);
+}
+
+if (parsed.showLcom4) {
+  const lcom4 = await calculateLcom4(parsed.targetDir);
+  console.log(formatLcom4Result(lcom4));
+  process.exit(0);
 }
 
 const graph = await buildDependencyGraph(parsed.targetDir);

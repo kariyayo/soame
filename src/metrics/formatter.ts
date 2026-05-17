@@ -2,6 +2,7 @@ import { basename } from "path";
 import type { AcdResult } from "./acd";
 import type { FanInFanOutResult } from "./fanInFanOut";
 import type { PropagationCostResult } from "./propagationCost";
+import type { Lcom4Result } from "./lcom4";
 
 export function formatAcdResult(result: AcdResult): string {
   return [
@@ -47,4 +48,22 @@ export function formatPropagationCostResult(result: PropagationCostResult): stri
     `Propagation Cost: ${pct}`,
     `Severity: ${severityMessages[result.severity]}`,
   ].join("\n");
+}
+
+export function formatLcom4Result(results: Lcom4Result[]): string {
+  const header = "=== LCOM4 (Lack of Cohesion in Methods 4) ===\n";
+  if (results.length === 0) return header + "(no classes found)";
+
+  const rows: string[] = [];
+  results.forEach((res) => {
+    res.classes.forEach((cls) => {
+      rows.push(`${basename(res.filePath)}: ${cls.className.padEnd(20)} LCOM4 = ${cls.lcom4}`);
+    });
+  });
+
+  const totalLcom4 = results.reduce((sum, res) => sum + res.classes.reduce((s, c) => s + c.lcom4, 0), 0);
+  const totalClasses = results.reduce((sum, res) => sum + res.classes.length, 0);
+  const average = totalClasses > 0 ? (totalLcom4 / totalClasses).toFixed(2) : "0.00";
+
+  return [header, ...rows, "---", `Average LCOM4: ${average}`].join("\n");
 }

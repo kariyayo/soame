@@ -1,11 +1,7 @@
-# today_meal
+# GEMINI.md
 
 ## ドキュメント
-
-- @docs/10_prd.md
-- @docs/20_spec.md
-- @docs/30_design.md
-- @docs/40_development.md
+- プロジェクトの詳細は `docs/` ディレクトリ配下のドキュメント（PRD, Spec, Design, Development）を参照してください。
 
 ## 開発ルール
 
